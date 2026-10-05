@@ -1,76 +1,374 @@
+\documentclass[12pt,a4paper]{article}
 
+% ---------- Pacotes ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage[hidelinks]{hyperref}
+\usepackage[top=3.2cm,bottom=3cm,left=2.5cm,right=2.5cm,headheight=40pt]{geometry}
 
-%\documentclass[12pt]{article}
-\documentclass[12pt]{scrartcl}
-\title{ sfafasfasf}
-\nonstopmode
-%\usepackage[utf-8]{inputenc}
-\usepackage{graphicx} % Required for including pictures
-\usepackage[figurename=Figure]{caption}
-\usepackage[portuguese]{babel}
-\usepackage{float}    % For tables and other floats
-\usepackage{verbatim} % For comments and other
-\usepackage{amsmath}  % For math
-\usepackage{amssymb}  % For more math
-\usepackage{fullpage} % Set margins and place page numbers at bottom center
-\usepackage{paralist} % paragraph spacing
-\usepackage{listings} % For source code
-\usepackage{subfig}   % For subfigures
-%\usepackage{physics}  % for simplified dv, and 
-\usepackage{enumitem} % useful for itemization
-\usepackage{siunitx}  % standardization of si units
+\pgfplotsset{compat=1.16}
 
-\usepackage{tikz,bm} % Useful for drawing plots
-%\usepackage{tikz-3dplot}
-\usepackage{circuitikz}
+% ---------- Cores ----------
+\definecolor{unbblue}{RGB}{0,0,255}      % azul dos títulos
+\definecolor{unbdark}{RGB}{20,70,110}    % azul escuro do cabeçalho
+\definecolor{unbgreen}{RGB}{0,140,70}
 
-%%% Colours used in field vectors and propagation direction
-\definecolor{mycolor}{rgb}{1,0.2,0.3}
-\definecolor{brightgreen}{rgb}{0.4, 1.0, 0.0}
-\definecolor{britishracinggreen}{rgb}{0.0, 0.26, 0.15}
-\definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
-\definecolor{ceruleanblue}{rgb}{0.16, 0.32, 0.75}
-\definecolor{darkelectricblue}{rgb}{0.33, 0.41, 0.47}
-\definecolor{darkpowderblue}{rgb}{0.0, 0.2, 0.6}
-\definecolor{darktangerine}{rgb}{1.0, 0.66, 0.07}
-\definecolor{emerald}{rgb}{0.31, 0.78, 0.47}
-\definecolor{palatinatepurple}{rgb}{0.41, 0.16, 0.38}
-\definecolor{pastelviolet}{rgb}{0.8, 0.6, 0.79}
+% ---------- Títulos das seções (azul, sem numeração) ----------
+\titleformat{\section}{\sffamily\bfseries\large\color{unbblue}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.8em}{0.8em}
+
+% ---------- Listas com (a), (b), ... em azul ----------
+\setlist[enumerate,1]{label=\textcolor{unbblue}{(\alph*)},leftmargin=2em,itemsep=0.8em}
+\setlist[itemize]{label=\textemdash,itemsep=0.1em}
+
+% ---------- Código ----------
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  literate={á}{{\'a}}1 {ã}{{\~a}}1 {ç}{{\c c}}1 {ê}{{\^e}}1 {é}{{\'e}}1 {õ}{{\~o}}1 {í}{{\'i}}1 {ú}{{\'u}}1 {ô}{{\^o}}1
+}
+
+% ---------- Cabeçalho e rodapé ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\lhead{%
+  \raisebox{-0.2\height}{%
+  \begin{tikzpicture}[scale=0.11]
+    % logotipo estilizado (substitua por \includegraphics{logo_unb.png} se tiver o arquivo)
+    \fill[unbdark] (0,0) -- (4,0) -- (4,3) -- cycle;
+    \fill[unbgreen] (0,0) -- (0,3) -- (4,3) -- cycle;
+    \fill[unbdark] (5,0) -- (9,0) -- (5,3) -- cycle;
+    \fill[unbgreen] (9,0) -- (9,3) -- (5,3) -- cycle;
+  \end{tikzpicture}}%
+  \hspace{0.3em}{\sffamily\bfseries\Large\color{unbdark}Universidade de Brasília}}
+\rhead{%
+  {\sffamily\large FCTE}\;%
+  \raisebox{-0.25\height}{\tikz\node[circle,fill=unbgreen,text=white,inner sep=2pt]{\Large$\gamma$};}}
+
+\lfoot{\small\sffamily Faculdade de Ciências e Tecnologias em Engenharia -- FCTE\\
+       \textcolor{unbblue}{\href{http://www.fcte.unb.br}{www.fcte.unb.br}}}
+\rfoot{\small\sffamily\thepage/\pageref{LastPage}}
+
+\setlength{\parindent}{1.5em}
+
 \begin{document}
 
+% ---------- Título ----------
 \begin{center}
-	%\hrule
-	\vspace{.4cm}
-	{\textbf { \large LISTA 1 - PROCESSAMENTO DE SINAIS}}
+  {\sffamily\bfseries\large\color{unbblue} Processamento de Sinais -- 02/2026}\\[2.2em]
+  {\sffamily\bfseries\large\color{unbblue} Lista de Exercícios 1}\\[0.8em]
+  {\sffamily\bfseries\large\color{unbblue} Conceitos básicos}
 \end{center}
-\noindent \textbf{Name:} Henrique de Oliveira Bernardes \hspace{\fill} \textbf{Data: }\today\\
-\textbf{Matrícula:} 231011471 \hspace{\fill}  \\
-%\hrule
-  \vspace{0.5cm}
- 
+
+\vspace{0.5em}
+\noindent\textbf{Nome:} Henrique de Oliveira Bernardes \hfill \textbf{Data:} \today\\
+\textbf{Matrícula:} 231011471
+
+\section{Tópicos tratados}
+\begin{itemize}
+  \item Conceito de sinais em tempo discreto e em tempo contínuo.
+  \item Relação entre sinais em tempo discreto e em tempo contínuo.
+  \item Amostragem a taxas constantes.
+  \item Teorema de Nyquist\\
+        (transformada de Fourier do produto de um sinal por um trem de impulsos).
+  \item Reconstrução de Shannon a partir de amostras de sinais.
+  \item Quantização de sinais.
+  \item Diferenças entre processamento analógico e processamento digital de sinais.
+\end{itemize}
+
+% =====================================================
 \section{Problema 1}
-\subsection{O que é um sinal?}
+Acerca de conceitos básicos de processamento de sinais, responda as perguntas que se seguem.
 
-\subsection{O que é um sinal em domínio contínuo e um sinal em domínio discreto?}
+\begin{enumerate}
+  \item O que é um sinal?
 
-\subsection{Suponha que um sinal em tempo contínuo xc é amostrado a um intervalo regular. Qual o
-nome dado a este intervalo e ao inverso dele, no contexto de amostragem de sinais?}
+  \item O que é um sinal em domínio contínuo e um sinal em domínio discreto?
 
-\subsubsection{Com respeito ao item anterior, qual a equação que relaciona o sinal em tempo contínuo xc
-com o sinal em tempo discreto x?}
+  \item Suponha que um sinal em tempo contínuo $x_c$ é amostrado a um intervalo regular. Qual o
+        nome dado a este intervalo e ao inverso dele, no contexto de amostragem de sinais?
 
-\subsection{Com respeito ao item c: há alguns critérios que, quando respeitados, garantem que é possível
-calcular, teoricamente sem erro, o valor do sinal em tempo contínuo em qualquer instante, a
-partir das amostras adquiridas a intervalos regulares. Qual desses critérios é o mais usado?
-Trata-se de um critério necessário, suficiente, ou os dois?}
+  \item Com respeito ao item anterior, qual a equação que relaciona o sinal em tempo contínuo $x_c$
+        com o sinal em tempo discreto $x$?
 
-\subsection{Supondo que o critério do item acima é respeitado, há uma equação em forma fechada para
-cálculo de um valor do sinal em tempo contínuo, num instante arbitrário t, a partir das
-amostras? Ou seja, há uma fórmula para calcular xc(t) a partir dos vários x[n]’s? Se há,
-forneça essa fórmula}
+  \item Com respeito ao item c: há alguns critérios que, quando respeitados, garantem que é possível
+        calcular, teoricamente sem erro, o valor do sinal em tempo contínuo em qualquer instante, a
+        partir das amostras adquiridas a intervalos regulares. Qual desses critérios é o mais usado?
+        Trata-se de um critério necessário, suficiente, ou os dois?
 
+  \item Supondo que o critério do item acima é respeitado, há uma equação em forma fechada para
+        cálculo de um valor do sinal em tempo contínuo, num instante arbitrário $t$, a partir das
+        amostras? Ou seja, há uma fórmula para calcular $x_c(t)$ a partir dos vários $x[n]$'s? Se há,
+        forneça essa fórmula.
+\end{enumerate}
 
-\section{}
+% =====================================================
+\section{Problema 2}
+Defina um sinal arbitrário em tempo contínuo, pela sobreposição de 3 senoides de frequências
+$f_1 = 200$ hertz, $f_2 = 400$ hertz, $f_3 = 600$ hertz e amplitudes $A_1 = 1$, $A_2 = 2$ e
+$A_3 = 1{,}5$, respectivamente. Use fases diferentes para cada senoide. A respeito desse sinal,
+responda os seguintes itens.
+
+\begin{enumerate}
+  \item Elabore um programa em MATLAB ou Octave para geração do gráfico de $x_c$, em um intervalo
+        de tempo correspondente a 4 períodos do sinal. No gráfico, indique claramente o
+        significado dos eixos horizontal e vertical. Forneça o código e o gráfico obtido. Use uma
+        taxa de amostragem alta o suficiente para que não se observe o aspecto discreto implícito
+        no gráfico.
+
+  \item Escreva um programa em MATLAB ou Octave para amostrar o sinal $x_c$ a uma taxa de 3 kHz.
+        Trace o gráfico das 30 primeiras amostras do sinal. Utilize representação de cada amostra
+        por uma barra vertical e círculo na extremidade da barra (gráfico do tipo \textit{stem}).
+
+  \item A respeito do item anterior, determine o intervalo de tempo contínuo, em segundos,
+        correspondente às 30 amostras representadas (considere o intervalo entre a primeira e a
+        última amostra).
+\end{enumerate}
+
+% =====================================================
+\section{Problema 3}
+Considere que um sinal $x_c:\mathbb{R}\to\mathbb{R}$ tem a transformada de Fourier ilustrada no
+gráfico abaixo (os valores da transformada são nulos fora do intervalo de frequências mostrado no
+gráfico).
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.8\textwidth, height=7cm,
+  xmin=-2000, xmax=2000, ymin=0, ymax=12500,
+  xtick={-2000,-1500,-1000,-500,0,500,1000,1500,2000},
+  ytick={0,2000,4000,6000,8000,10000,12000},
+  xlabel={Frequência $f$ (hertz)},
+  ylabel={$\hat{x}_c(f)$}, ylabel style={rotate=-90},
+  grid=both, grid style={gray!40},
+  scaled ticks=false
+]
+\addplot[blue!70!black, thick] coordinates {(-2000,0) (-1000,0) (0,12000) (1000,0) (2000,0)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Com base nessa informação, responda os seguintes itens.
+
+\begin{enumerate}
+  \item Forneça a equação para a transformada de Fourier do sinal dado por
+        \[
+          y_c(t) = \sum_{n=-\infty}^{\infty} x_c(t)\,\delta(t - nT_s),
+        \]
+        onde $\delta$ é a função impulso unitário (ou delta de Dirac). Considere que
+        $T_s = 0{,}4$ ms.
+
+  \item Trace o gráfico da transformada de Fourier do sinal $y_c$ definido no item anterior.
+
+  \item Repita o item \textbf{a)}, considerando agora $T_s = 0{,}625$ ms.
+
+  \item Repita o item \textbf{b)}, considerando agora $T_s = 0{,}625$ ms.
+
+  \item Explique a importância do teorema que embasa, na teoria de processamento de sinais, a
+        resposta aos itens anteriores.
+\end{enumerate}
+
+% =====================================================
+\section{Problema 4}
+Suponha que um sinal em tempo contínuo $x_c$ foi amostrado a um intervalo constante de 0,5 ms.
+Suponha ainda que essa condição de amostragem está de acordo com o critério de Nyquist, para o
+sinal em questão.
+
+O gráfico abaixo mostra o sinal em tempo discreto obtido, que é nulo fora da faixa de valores de
+tempo mostrada.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.7\textwidth, height=7cm,
+  xmin=-3.5, xmax=5.5, ymin=-3, ymax=8,
+  xtick={-3,-2,-1,0,1,2,3,4,5},
+  ytick={-3,-2,-1,0,1,2,3,4,5,6,7,8},
+  xlabel={$n$}, ylabel={$x[n]$}, ylabel style={rotate=-90},
+  grid=both, grid style={gray!40}
+]
+\addplot[ycomb, blue!70!black, mark=*, thick] coordinates
+  {(-3,0) (-2,2) (-1,3) (0,1) (1,-1) (2,1) (3,2) (4,7) (5,1)};
+\draw[red] (axis cs:-3,0) -- (axis cs:5,0);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Com base nessas informações:
+
+\begin{enumerate}
+  \item Calcule o valor do sinal em tempo contínuo no instante 0.
+  \item Calcule o valor do sinal em tempo contínuo no instante 0,5 ms.
+  \item Calcule o valor do sinal em tempo contínuo no instante 0,75 ms.
+  \item Calcule o valor do sinal em tempo contínuo no instante 1 ms.
+  \item Calcule o valor do sinal em tempo contínuo no instante 1,25 ms.
+  \item Com auxílio do MATLAB, Python ou outro programa/linguagem, trace um gráfico do sinal em
+        tempo contínuo entre os instantes de $-2$ milissegundos e de 2,5 milissegundos.
+\end{enumerate}
+
+% =====================================================
+\section{Problema 5}
+O arquivo \texttt{amostras\_exemplo.mat} fornece 20 amostras de um sinal amostrado a uma taxa
+constante de 4 kHz. A respeito desse sinal, responda os seguintes itens. Os índices de tempo são
+representados pelo vetor $n_1$, enquanto que os valores do sinal naqueles índices são
+representados pelo vetor $x_1$.
+
+Considere que as amostras obtidas à taxa de 4 kHz são nulas, com exceção das 20 amostras dadas.
+Considere ainda que a primeira amostra da lista de 20 corresponde ao índice de tempo $n = 0$.
+
+\begin{enumerate}
+  \item Determine o intervalo de tempo representado pelas 20 amostras.
+
+  \item Supondo que a amostragem atende ao critério de Nyquist, trace um gráfico do sinal em tempo
+        contínuo, em uma janela de tempo que inclua as 20 amostras e permita a visualização de
+        todas elas, além do gráfico em tempo contínuo. Utilize o MATLAB, Python, ou outro
+        programa/linguagem. No gráfico, apresente as amostras individuais (representadas como
+        \textit{stems}) sobrepostas ao sinal em tempo contínuo. Note que é necessário calcular os
+        instantes em s ou ms para cada amostra (e não representá-las, nesse caso, em índices
+        inteiros de tempo).
+
+  \item Se interpolarmos o sinal com outra técnica que não a de Shannon (por exemplo, usando
+        interpolação polinomial ou por \textit{splines}), obteremos um sinal distinto, mas que
+        também interpola as amostras. Em que sentido o sinal obtido pela equação de Shannon traduz
+        mais fielmente o sinal real? Por quê?
+
+  \item Com respeito ao item anterior, que característica matemática diferencia o sinal obtido
+        pela equação de Shannon de qualquer outro sinal que interpole as amostras?
+\end{enumerate}
+
+% =====================================================
+\section{Problema 6}
+Quais são as duas etapas no processo de digitalização de um sinal em tempo contínuo? Descreva cada
+etapa, e diga, em cada caso, se é possível em geral realizá-la sem perda teórica de informação ou
+introdução de erro.
+
+% =====================================================
+\section{Problema 7}
+Tanto a etapa de amostragem quanto a etapa de quantização podem afetar negativamente a informação
+presente em um sinal originalmente analógico, quando feitas de forma não criteriosa.
+
+No caso da amostragem, há teorias avançadas acerca de condições que, quando satisfeitas, garantem
+que não há perda de informação no processo em questão.
+
+No caso da quantização, o erro introduzido durante o processo pode ter implicações mais severas ou
+menos severas para uma aplicação específica, dependendo do número de \textit{bits} utilizado.
+
+Neste problema, aborda-se o efeito prático da alteração do número de níveis de quantização,
+suposta linear, para o entendimento de um sinal de voz. Neste sentido, responda os seguintes itens.
+
+\begin{enumerate}
+  \item Utilizando o MATLAB ou o Python, grave um segmento de sua própria voz, com aproximadamente
+        20 segundos de duração, ou adquira um exemplo de sinal de voz a partir de um áudio ou
+        vídeo disponível publicamente (com o MATLAB, Python ou o Audacity, é possível extrair o
+        sinal de áudio a partir de um arquivo de vídeo). A ideia é que o sinal represente um
+        discurso falado, e não um canto ou manifestação musical. Registre bem a informação da taxa
+        de aquisição e do número de bits utilizado na aquisição.
+
+        No caso do MATLAB, é possível gravar um áudio (com um canal) de 20 segundos a 44,1 kHz e
+        com 24 bits, utilizando o código a seguir.
+
+\begin{lstlisting}
+%  parametros de aquisicao
+fs = 44100; % Taxa de amostragem em hertz
+nBits = 24; % Número de bits por amostra
+duracao = 20; % Duração em segundos
+
+% Objeto para a gravação (o 1 se refere a um canal único de aquisição)
+recObj = audiorecorder(fs, nBits, 1);
+disp('Comece a fala.')
+
+% Aquisição do áudio
+recordblocking(recObj, duracao);
+disp('Fim da gravação.');
+
+% Gravação em arquivo
+x = getaudiodata(recObj);
+audiowrite('exemplo_voz.wav', x, fs)
+\end{lstlisting}
+
+  \item Ouça o sinal gravado. No MATLAB, você pode usar os comandos abaixo. Comente sobre a
+        qualidade do áudio e sobre a inteligibilidade do que foi dito, a partir do sinal.
+
+\begin{lstlisting}
+[x, fs] = audioread('exemplo_voz.wav');
+sound(x, fs)
+\end{lstlisting}
+
+  \item Escreva uma função que reduz o número de níveis de quantização de um sinal. A função
+        recebe na entrada o sinal \texttt{x} e o número de bits \texttt{Nbits} correspondente à
+        quantidade de níveis de quantização desejada. Em seguida, a função retorna um novo sinal,
+        contendo no máximo $2^{\text{Nbits}}$ níveis distintos. Como dica, siga os passos indicados
+        abaixo, em sua função.
+        \begin{itemize}
+          \item Normalize o sinal de entrada, colocando-o na faixa entre 0 e 1. Por exemplo:
+\begin{lstlisting}
+x = x - min(x);
+x = x / max(x);
+\end{lstlisting}
+          \item Multiplique o sinal resultante por $2^{\text{Nbits}} - 1$. Os novos valores estarão
+                entre 0 e $2^{\text{Nbits}} - 1$.
+          \item Aproxime cada amostra para sua parte inteira (no MATLAB, isso é feito usando o
+                comando \texttt{floor}). Assim, todos os valores serão inteiros entre 0 e
+                $2^{\text{Nbits}} - 1$.
+          \item Para ouvir o sinal obtido, conforme as orientações abaixo, use o comando
+                \texttt{soundsc(x\_quantizado, fs)}.
+        \end{itemize}
+
+  \item Utilizando sua função, reduza o número de níveis de quantização para o correspondente a
+        16 bits. Ouça o novo sinal. Comente sobre a qualidade e inteligibilidade.
+
+  \item Utilizando sua função, reduza o número de níveis de quantização para o correspondente a
+        8 bits. Ouça o novo sinal. Comente sobre a qualidade e inteligibilidade.
+
+  \item Utilizando sua função, reduza o número de níveis de quantização para o correspondente a
+        4 bits. Ouça o novo sinal. Comente sobre a qualidade e inteligibilidade.
+
+  \item Utilizando sua função, reduza o número de níveis de quantização para o correspondente a
+        2 bits. Ouça o novo sinal. Comente sobre a qualidade e inteligibilidade.
+
+  \item Utilizando sua função, reduza o número de níveis de quantização para o correspondente a
+        1 bit. Ouça o novo sinal. Comente sobre a qualidade e inteligibilidade.
+\end{enumerate}
+
+% =====================================================
+\section{Problema 8}
+Com que objetivos se realiza a digitalização de sinais analógicos? Levando em conta que a
+amostragem de sinais pode levar a perda de informação, não seria melhor efetuar o processamento de
+um sinal em sua forma analógica, em vez de digitalizá-lo?
+
+% =====================================================
+\section{Problema 9}
+Cite e explique as vantagens e desvantagens do processamento digital de sinais em relação ao
+processamento analógico de sinais.
+
+% =====================================================
+\section*{\sffamily\bfseries\color{unbblue} Referências}
+\begin{enumerate}[label={[\arabic*]},leftmargin=2.5em,itemsep=0.6em]
+  \item P. Diniz, E. A. B. da Silva, and S. L. Netto. \textit{Processamento Digital de Sinais:
+        Projeto e Análise de Sistemas}. Bookman, Porto Alegre, RS, 2ª edição, 2014.
+  \item R. G. Lyons. \textit{Understanding digital signal processing}. Prentice Hall, Upper Saddle
+        River, NJ, 3\textsuperscript{rd} edition, 2010.
+  \item S. K. Mitra. \textit{Digital Signal Processing: a Computer-Based Approach}. McGraw-Hill
+        Education, 4\textsuperscript{th} edition, 2010.
+  \item A. V. Oppenheim, R. W. Schafer, et al. \textit{Discrete-time signal processing}.
+        Prentice-Hall signal processing series. Prentice Hall, Englewood Cliffs, N.J., 2\textsuperscript{nd}
+        edition, 1999.
+\end{enumerate}
 
 \end{document}
-
