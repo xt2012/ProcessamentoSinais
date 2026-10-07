@@ -15,14 +15,62 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage[hidelinks]{hyperref}
+\usepackage{float}  
 \usepackage[top=3.2cm,bottom=3cm,left=2.5cm,right=2.5cm,headheight=40pt]{geometry}
-
+\usepackage[most]{tcolorbox}
 \pgfplotsset{compat=1.16}
 
 % ---------- Cores ----------
 \definecolor{unbblue}{RGB}{0,0,255}      % azul dos títulos
 \definecolor{unbdark}{RGB}{20,70,110}    % azul escuro do cabeçalho
 \definecolor{unbgreen}{RGB}{0,140,70}
+
+\definecolor{respfundo}{RGB}{238, 244, 252}
+\definecolor{respbarra}{RGB}{41, 98, 168}
+\definecolor{codefundo}{RGB}{248, 248, 248}
+\definecolor{codecomentario}{RGB}{0, 128, 0}
+\definecolor{codepalavra}{RGB}{0, 0, 200}
+\definecolor{codestring}{RGB}{170, 55, 0}
+
+\lstdefinestyle{matlabestilo}{
+  language=Matlab,
+  backgroundcolor=\color{codefundo},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{codepalavra}\bfseries,
+  commentstyle=\color{codecomentario}\itshape,
+  stringstyle=\color{codestring},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{gray!40},
+  breaklines=true,
+  tabsize=4,
+  showstringspaces=false,
+  inputencoding=utf8,
+  extendedchars=true,
+  literate=
+    {á}{{\'a}}1 {à}{{\`a}}1 {ã}{{\~a}}1 {â}{{\^a}}1
+    {é}{{\'e}}1 {ê}{{\^e}}1 {í}{{\'i}}1
+    {ó}{{\'o}}1 {õ}{{\~o}}1 {ô}{{\^o}}1
+    {ú}{{\'u}}1 {ç}{{\c c}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Ó}{{\'O}}1 {Ç}{{\c C}}1
+}
+\lstset{style=matlabestilo}
+
+\newtcolorbox{resposta}{
+  enhanced,
+  breakable,
+  colback=respfundo,
+  colframe=respfundo,
+  boxrule=0pt,
+  frame hidden,
+  borderline west={3pt}{0pt}{respbarra},
+  left=10pt, right=8pt, top=6pt, bottom=6pt,
+  arc=0pt,
+  before skip=6pt,
+  after skip=8pt,
+}
 
 % ---------- Títulos das seções (azul, sem numeração) ----------
 \titleformat{\section}{\sffamily\bfseries\large\color{unbblue}}{}{0pt}{}
@@ -62,7 +110,7 @@
   \raisebox{-0.25\height}{\tikz\node[circle,fill=unbgreen,text=white,inner sep=2pt]{\Large$\gamma$};}}
 
 \lfoot{\small\sffamily Faculdade de Ciências e Tecnologias em Engenharia -- FCTE\\
-       \textcolor{unbblue}{\href{http://www.fcte.unb.br}{www.fcte.unb.br}}}
+       \textcolor{unbblue}{Henrique de Oliveira Bernardes - 231011471}}
 \rfoot{\small\sffamily\thepage/\pageref{LastPage}}
 
 \setlength{\parindent}{1.5em}
@@ -80,42 +128,66 @@
 \noindent\textbf{Nome:} Henrique de Oliveira Bernardes \hfill \textbf{Data:} \today\\
 \textbf{Matrícula:} 231011471
 
-\section{Tópicos tratados}
-\begin{itemize}
-  \item Conceito de sinais em tempo discreto e em tempo contínuo.
-  \item Relação entre sinais em tempo discreto e em tempo contínuo.
-  \item Amostragem a taxas constantes.
-  \item Teorema de Nyquist\\
-        (transformada de Fourier do produto de um sinal por um trem de impulsos).
-  \item Reconstrução de Shannon a partir de amostras de sinais.
-  \item Quantização de sinais.
-  \item Diferenças entre processamento analógico e processamento digital de sinais.
-\end{itemize}
+ 
 
 % =====================================================
 \section{Problema 1}
 Acerca de conceitos básicos de processamento de sinais, responda as perguntas que se seguem.
 
 \begin{enumerate}
-  \item O que é um sinal?
+  \item O que é um sinal? 
+
+  \begin{resposta}
+  Um sinal é uma função matemática de uma ou mais variáveis dependentes, relacionadas a uma ou mais variáveis independentes, representando informações sobre um sistema ou é utilizada para interagir com um sistema e, a partir dessa interação, permitir extrair informação pela resposta do sistema.    
+  \end{resposta}
+  
 
   \item O que é um sinal em domínio contínuo e um sinal em domínio discreto?
+  
+  \begin{resposta}
+  Um sinal em domínio contínuo possui, entre um intervalo de valores contemplados em seu domínio, infinitos valores intermediarios. 
+
+  Um sinal em domínio discreto não possui valores intermediarios em um intervalo de valores contemplados em seu domínio.
+  \end{resposta}
 
   \item Suponha que um sinal em tempo contínuo $x_c$ é amostrado a um intervalo regular. Qual o
         nome dado a este intervalo e ao inverso dele, no contexto de amostragem de sinais?
+  \begin{resposta}
+      O nome dado ao intervalo na qual se amostra um sinal em tempo contínuo é período de amostragem; o inverso dele sendo a frequência de amostragem($f_s$).
+  \end{resposta}
 
   \item Com respeito ao item anterior, qual a equação que relaciona o sinal em tempo contínuo $x_c$
         com o sinal em tempo discreto $x$?
+
+  \begin{resposta}
+      \begin{equation*}
+            x(t)=x[nT]
+      \end{equation*}
+      onde $n$ é o número da amostra e $T$ é o período de amostragem utilizado para a amostragem do sinal.
+  \end{resposta}
+
 
   \item Com respeito ao item c: há alguns critérios que, quando respeitados, garantem que é possível
         calcular, teoricamente sem erro, o valor do sinal em tempo contínuo em qualquer instante, a
         partir das amostras adquiridas a intervalos regulares. Qual desses critérios é o mais usado?
         Trata-se de um critério necessário, suficiente, ou os dois?
 
+      \begin{resposta}
+            O critério de Nyquist estabelece que se um sinal for amostrado com a frequência de amostragem sendo pelo menos duas vezes a frequência máxima do sinal($f_s = 2f$), é possível reconstruir o sinal contínuo a partir das amostras discretas sem erro. 
+
+            O critério de Nyquist é suficiente, mas não necessário.
+      \end{resposta}
+
   \item Supondo que o critério do item acima é respeitado, há uma equação em forma fechada para
         cálculo de um valor do sinal em tempo contínuo, num instante arbitrário $t$, a partir das
         amostras? Ou seja, há uma fórmula para calcular $x_c(t)$ a partir dos vários $x[n]$'s? Se há,
         forneça essa fórmula.
+      \begin{resposta}
+            \begin{equation*}
+                  x_c(t)=\sum_{n=-\infty}^{\infty} x[n] sinc\left(\frac{t-nT_s}{T_s}\right)
+            \end{equation*}
+      \end{resposta}
+
 \end{enumerate}
 
 % =====================================================
@@ -131,14 +203,103 @@ responda os seguintes itens.
         significado dos eixos horizontal e vertical. Forneça o código e o gráfico obtido. Use uma
         taxa de amostragem alta o suficiente para que não se observe o aspecto discreto implícito
         no gráfico.
+  
+\noindent
+\begin{resposta}
+\begin{minipage}[t]{1\textwidth}
+  \vspace{0pt}
+  \begin{lstlisting}[basicstyle=\ttfamily\scriptsize, numbers=left]
+f=[200 400 600];
+A=[1 2 1.5];
+phi=[0 pi/3 pi/4];
 
+f0=gcd(gcd(f(1),f(2)), f(3));
+T=1/f0;
+fs=100000; %taxa de amostragem de 100kHz
+t=0:1/fs:4*T;
+[1/f0 T*fs] %período e numero de pontos por período
+
+f1=A(1)*sin(2*pi*f(1)*t + phi(1));
+f2=A(2)*sin(2*pi*f(2)*t + phi(2));
+f3=A(3)*sin(2*pi*f(3)*t + phi(3));
+
+xc= f1+f2+f3;
+
+plot(t, xc, "LineWidth",1.2);
+grid on;
+xlabel('Tempo(s)');
+ylabel('Amplitude do sinal x_c(t)');
+title('Sinal x_c(t) em 4 períodos(equivalente a 5ms)')
+\end{lstlisting}
+\end{minipage}
+\hfill
+\end{resposta}
+\begin{resposta}
+\begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{figures/grafico2a.png}
+      \caption{Gráfico do sinal $x_c(t)$ em 4 períodos.}
+      \label{fig:label_name}
+\end{figure}
+ \end{resposta}
+        
   \item Escreva um programa em MATLAB ou Octave para amostrar o sinal $x_c$ a uma taxa de 3 kHz.
         Trace o gráfico das 30 primeiras amostras do sinal. Utilize representação de cada amostra
         por uma barra vertical e círculo na extremidade da barra (gráfico do tipo \textit{stem}).
+\begin{resposta}
+\begin{minipage}[t]{1\textwidth}
+  \vspace{0pt}
+  \begin{lstlisting}[basicstyle=\ttfamily\scriptsize, numbers=left]
+ 
+ 
+f=[200 400 600];
+A=[1 2 1.5];
+phi=[0 pi/3 pi/4];
+
+f0=gcd(gcd(f(1),f(2)), f(3));
+fs=3000; %taxa de amostragem de 3kHz
+T=1/fs;
+N=30; %;número de amostras
+n=(0:N-1);
+
+%x(t)=x[nT]
+ 
+f1=A(1)*sin(2*pi*f(1)*(n*T) + phi(1));
+f2=A(2)*sin(2*pi*f(2)*(n*T) + phi(2));
+f3=A(3)*sin(2*pi*f(3)*(n*T) + phi(3));
+
+xd= f1+f2+f3;
+ 
+
+stem(n, xd, "LineWidth",1.2, 'Marker','o');
+grid on;
+xlabel('Amostra[n]');
+ylabel('Amplitude do sinal amostrado x_d[n]');
+title('30 amostras do sinal x_d[n] ')
+ 
+ 
+\end{lstlisting}
+\end{minipage}
+\hfill
+\end{resposta}
+
+
 
   \item A respeito do item anterior, determine o intervalo de tempo contínuo, em segundos,
         correspondente às 30 amostras representadas (considere o intervalo entre a primeira e a
         última amostra).
+
+        \begin{resposta}
+            Temos que o período de amostragem é 
+            \begin{equation*}
+                  T=1/f_s=3.3333 \times 10^{-4}\, \text{s}
+            \end{equation*}
+            Ou seja, as amostras são espaçadas de $3.3333 \times 10^{-4}$ segundos. Portanto, para N amostras temos N-1 intervalos entre elas, onde $N=30$:
+            \begin{equation*}
+                  T*(N-1)= 0.0097 s 
+            \end{equation*}
+        \end{resposta}
+
 \end{enumerate}
 
 % =====================================================
